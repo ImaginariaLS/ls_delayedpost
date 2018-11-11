@@ -19,7 +19,7 @@ class PluginDelayedpost_ModuleStream_MapperStream extends PluginDelayedpost_Inhe
 					event_type IN (?a) 
 					{ AND user_id IN (?a) }
 					AND publish = 1
-					AND date_added <= '{$sDateNow}
+					AND date_added <= '{$sDateNow}'
 					{ AND id < ?d }	
 				ORDER BY id DESC
 				{ LIMIT 0,?d }";
