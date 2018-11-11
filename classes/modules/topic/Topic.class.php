@@ -46,6 +46,7 @@ class PluginDelayedpost_ModuleTopic extends PluginDelayedpost_Inherit_ModuleTopi
     public function GetTopicsByFilter($aFilter, $iPage = 0, $iPerPage = 0, $aAllowData = array('user' => array(), 'blog' => array('owner' => array(), 'relation_user'), 'vote', 'favourite', 'comment_new'))
     {
         //@todo: грязная магия: iCount возвращается по ссылке, используется дальше, но не объявляется нигде прежде
+        $iCount = null;
 
         $s = serialize($aFilter);
         $iSecondsToNextDelayedTopicDatetime = $this->GetSecondsToNextDelayedTopic();
