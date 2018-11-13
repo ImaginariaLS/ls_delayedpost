@@ -11,27 +11,36 @@ if (!class_exists('Plugin')) {
 
 class PluginDelayedpost_HookDelayedpost extends Hook
 {
+    const ConfigKey = 'delayedpost';
+    const HooksArray = [
+        'module_topic_addtopic_before'          => 'InitHoldAdd',
+        'module_topic_updatetopic_before'       => 'InitHoldUpdate',
+        'module_topic_updatetopic_after'        => 'DoHoldUpdate',
+        'init_action'                           => 'AssignRequest',
+        'template_form_add_topic_topic_end'     => 'TopicDateField',
+        'template_form_add_topic_question_end'  => 'TopicDateField',
+        'template_form_add_topic_link_end'      => 'TopicDateField',
+        'template_form_add_topic_photoset_end'  => 'TopicDateField',
+        'template_menu_topic_action'            => 'MenuTopicAction',
+        'template_body_begin'                   => 'HookBodyBegin',
+        'topic_show'                            => 'ShowTopic',
+        'template_main_menu_item'               => 'MainMenu'
+    ];
 
     /**
      *
      */
     public function RegisterHook()
     {
-        $this->AddHook('module_topic_addtopic_before', 'InitHoldAdd');
-        $this->AddHook('module_topic_updatetopic_before', 'InitHoldUpdate');
-        $this->AddHook('module_topic_updatetopic_after', 'DoHoldUpdate');
-        $this->AddHook('init_action', 'AssignRequest');
-        $this->AddHook('template_form_add_topic_topic_end', 'TopicDateField');
-        $this->AddHook('template_form_add_topic_question_end', 'TopicDateField');
-        $this->AddHook('template_form_add_topic_link_end', 'TopicDateField');
-        $this->AddHook('template_form_add_topic_photoset_end', 'TopicDateField');
-
-        $this->AddHook('template_menu_topic_action', 'MenuTopicAction');
-        $this->AddHook('template_body_begin', 'HookBodyBegin');
-
-        $this->AddHook('topic_show', 'ShowTopic');
-
-        $this->AddHook('template_main_menu_item', 'MainMenu');
+        $plugin_config_key = $this::ConfigKey;
+        foreach ($this::HooksArray as $hook => $callback) {
+            $this->AddHook(
+                $hook,
+                $callback,
+                __CLASS__,
+                Config::Get("plugin.{$plugin_config_key}.hook_priority.{$hook}") ?? 1
+            );
+        }
     }
 
     /**
