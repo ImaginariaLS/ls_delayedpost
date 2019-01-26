@@ -6,8 +6,9 @@
 */
 
 if (!class_exists('Plugin')) {
-    die('Hacking attemp!');
+    die(__FILE__ . ' : Hacking attemp!');
 }
+
 
 class PluginDelayedpost_HookDelayedpost extends Hook
 {
